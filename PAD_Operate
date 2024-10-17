@@ -1,0 +1,68 @@
+from PIL import ImageGrab
+from functools import partial
+
+import pyautogui
+import pywinauto
+
+#from pywinauto import findwindows
+#procs = findwindows.find_elements()
+
+
+
+#for proc in procs:
+#    print(f"{proc} / 프로세스 : {proc.process_id}")
+
+from pywinauto import application
+
+app = application.Application(backend='uia') 
+
+# 프로세스의 경로를 넣어 실행해준다.
+app.start("C:\\Program Files (x86)\\Power Automate Desktop\\PAD.Console.Host.exe")
+#app.connect(title_re="Power Automate") 
+
+
+#for win in pyautogui.getAllWindows():
+
+#    print(win)
+pyautogui.sleep(15)
+
+# PAD 메인창에서 단축키로 실행합니다.
+def getScheduleWork():
+    # 현재 실행된 창에서 title이 'Power Automate'인 창을 가져옵니다.
+        pad = pyautogui.getWindowsWithTitle('Power Automate')[0]
+        try:
+
+
+        # PAD창이 활성화 상태가 아니라면 활성화 시킵니다. (맨 앞으로 가져오기)
+            if pad.isActive == False:
+                pad.activate()
+
+        # PAD창이 최대화가 아니라면 최대화 시킵니다.
+        # 이는 마우스 클릭을 좌표값으로 하기 위해서입니다.
+            if pad.isMaximized == False:
+                pad.maximize()
+
+        # 창 최대화 속도와 마우스 이동 속도가 겹치는 것을 방지하기 위해
+        # sleep를 5초 합니다.
+            pyautogui.sleep(5)
+
+        # Connect-i 자동 업데이트 PAD 단축키 실행(ctrl+shift+t)
+            pyautogui.hotkey('ctrl', 'shift','t')
+        except Exception as exp:       
+            print('getScheduleWork error : {0}'.format(exp))
+
+getScheduleWork()
+
+pyautogui.sleep(30)
+
+#ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
+
+btn=pyautogui.locateCenterOnScreen(r'D:\\Python\\RPA\\btn.png')
+print(btn)
+
+
+# 영역으로 지정해서 하는 방법
+# btn = pyautogui.locateOnScreen("btn.png", region=(1800, 0, 1920, 100), confidence=0.7)
+
+pyautogui.click(btn)
+#pyautogui.click(btn1)
